@@ -27,10 +27,8 @@ provider:
     DELIVERY_BUCKET:
       Fn::ImportValue: ${env:ORDERS_SERVICE_NAME}-${self:provider.stage}-DeliveryBucketName
 
-    FULFILLMENT_STATE_MACHINE_ARN:
-      Fn::GetAtt:
-        - OrderFulfillmentStateMachine
-        - Arn
+    FULFILLMENT_STATE_MACHINE_ARN: arn:aws:states:${self:provider.region}:${env:AWS_ACCOUNT_ID}:stateMachine:${self:service}-${self:provider.stage}-OrderFulfillment
+
 
 functions:
   # 1) Listener de EventBridge que inicia Step Functions
@@ -106,6 +104,7 @@ functions:
 stepFunctions:
   stateMachines:
     OrderFulfillmentStateMachine:
+      role: arn:aws:iam::${env:AWS_ACCOUNT_ID}:role/${env:ROLE_NAME}
       name: ${self:service}-${self:provider.stage}-OrderFulfillment
       definition:
         Comment: "Máquina de estados de cumplimiento de pedidos ChinaWok"
