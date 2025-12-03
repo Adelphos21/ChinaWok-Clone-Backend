@@ -60,10 +60,7 @@ functions:
           path: /orders/{order_id}/assign-cook
           method: post
           cors: true
-          request:
-            parameters:
-              headers:
-                x-tenant-id: true
+          
 
   MarkPacked:
     handler: api/MarkPacked.lambda_handler
@@ -72,10 +69,7 @@ functions:
           path: /orders/{order_id}/mark-packed
           method: post
           cors: true
-          request:
-            parameters:
-              headers:
-                x-tenant-id: true
+          
 
   AssignDelivery:
     handler: api/AssignDelivery.lambda_handler
@@ -84,10 +78,7 @@ functions:
           path: /orders/{order_id}/assign-delivery
           method: post
           cors: true
-          request:
-            parameters:
-              headers:
-                x-tenant-id: true
+          
 
   MarkDelivered:
     handler: api/MarkDelivered.lambda_handler
@@ -96,10 +87,7 @@ functions:
           path: /orders/{order_id}/mark-delivered
           method: post
           cors: true
-          request:
-            parameters:
-              headers:
-                x-tenant-id: true
+          
 
 stepFunctions:
   stateMachines:

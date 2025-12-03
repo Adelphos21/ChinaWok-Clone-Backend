@@ -59,10 +59,7 @@ functions:
           method: get
           cors: true
           integration: lambda-proxy
-          request:
-            parameters:
-              headers:
-                x-tenant-id: true
+          
 
   getOrderHistory:
     handler: handlers/get_order_history.lambda_handler
@@ -73,10 +70,7 @@ functions:
           method: get
           cors: true
           integration: lambda-proxy
-          request:
-            parameters:
-              headers:
-                x-tenant-id: true
+          
 
   getDashboardOrders:
     handler: handlers/get_dashboard_orders.lambda_handler
@@ -88,12 +82,7 @@ functions:
           method: get
           cors: true
           integration: lambda-proxy
-          request:
-            parameters:
-              headers:
-                x-tenant-id: true
-              querystrings:
-                status: false
+          
 
   getCustomerOrders:
     handler: handlers/get_customer_orders.lambda_handler
@@ -104,7 +93,4 @@ functions:
           method: get
           cors: true
           integration: lambda-proxy
-          request:
-            parameters:
-              headers:
-                x-tenant-id: true
+          

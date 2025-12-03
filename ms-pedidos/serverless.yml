@@ -33,10 +33,7 @@ functions:
           path: /orders
           method: post
           cors: true
-          request:
-            parameters:
-              headers:
-                x-tenant-id: true
+          
 
   # GET /orders/customer/{customer_id}
   OrderByCustomer:
@@ -46,10 +43,7 @@ functions:
           path: /orders/customer/{customer_id}
           method: get
           cors: true
-          request:
-            parameters:
-              headers:
-                x-tenant-id: true
+          
 
   # PATCH /orders/{order_id}/cancel
   CancelOrder:
@@ -59,10 +53,7 @@ functions:
           path: /orders/{order_id}/cancel
           method: patch
           cors: true
-          request:
-            parameters:
-              headers:
-                x-tenant-id: true
+          
 
   # GET /orders?status=X
   OrdersByStatus:
@@ -72,10 +63,7 @@ functions:
           path: /orders
           method: get
           cors: true
-          request:
-            parameters:
-              headers:
-                x-tenant-id: true
+          
 
   # (Opcional) UpdateOrderStatus eliminado porque Fulfillment maneja flujo
   # UpdateOrderStatus:
