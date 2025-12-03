@@ -26,7 +26,7 @@ def lambda_handler(event, context):
         # -------- tenant obligatorio ----------
         tenant_id = (event.get("headers") or {}).get("x-tenant-id")
         if not tenant_id:
-            return{400, {"error": "x-tenant-id header es requerido"}}
+            return response(400, {"error": "x-tenant-id header es requerido"})
             
 
         params = event.get("queryStringParameters", {}) or {}
@@ -37,7 +37,7 @@ def lambda_handler(event, context):
         # -------- cuando viene status, query directa ----------
         if status_filter:
             if status_filter not in VALID_STATUSES:
-                return(400, {"error": f"status inválido. Válidos: {', '.join(VALID_STATUSES)}"})
+                return response(400, {"error": f"status inválido. Válidos: {', '.join(VALID_STATUSES)}"})
 
             resp = table.query(
                 IndexName="StatusIndex",
@@ -77,16 +77,16 @@ def lambda_handler(event, context):
         pedidos_formateados.sort(key=lambda x: x["created_at"] or "")
 
         estadisticas = generar_estadisticas_dashboard(pedidos_formateados)
-        return{200, {"tenant_id": tenant_id,
+        return response(200, {"tenant_id": tenant_id,
                 "orders": pedidos_formateados,
                 "statistics": estadisticas,
                 "total": len(pedidos_formateados),
-                "filter_applied": status_filter}}
+                "filter_applied": status_filter})
         
 
     except Exception as e:
         print(f"Error: {str(e)}")
-        return{500, {"error": str(e)}}
+        return response(500, {"error": str(e)})
         
 
 

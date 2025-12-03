@@ -3,7 +3,7 @@ import os
 import json
 import boto3
 from datetime import datetime, timezone
-
+from utils import response
 dynamodb = boto3.resource("dynamodb")
 stepfunctions = boto3.client("stepfunctions")
 table = dynamodb.Table(os.environ["ORDERS_TABLE"])
@@ -14,25 +14,30 @@ def lambda_handler(event, context):
 
     tenant_id = (event.get("headers") or {}).get("x-tenant-id")
     if not tenant_id:
-        return {"statusCode": 400, "body": json.dumps({"error": "x-tenant-id header requerido"})}
+        return response(400, {"error": "x-tenant-id header requerido"})
+        
 
     staff_id = body.get("staff_id")
     staff_name = body.get("staff_name")
     if not staff_id or not staff_name:
-        return {"statusCode": 400, "body": json.dumps({"error": "staff_id y staff_name son requeridos"})}
+        return response(400, {"error": "staff_id y staff_name son requeridos"})
+        
 
     # Leer pedido
     res = table.get_item(Key={"tenant_id": tenant_id, "order_id": order_id})
     item = res.get("Item")
     if not item:
-        return {"statusCode": 404, "body": json.dumps({"error": "Order not found"})}
+        return response(404, {"error": "Order not found"})
+        
 
     if item.get("pending_step") != "ASSIGN_COOK":
-        return {"statusCode": 409, "body": json.dumps({"error": "Order not waiting for cook assignment"})}
+        return response(409, {"error": "Order not waiting for cook assignment"})
+        
 
     task_token = item.get("pending_task_token")
     if not task_token:
-        return {"statusCode": 409, "body": json.dumps({"error": "No pending task token for this order"})}
+        return response(409, {"error": "No pending task token for this order"})
+        
 
     now = datetime.now(timezone.utc).isoformat()
 
@@ -57,7 +62,5 @@ def lambda_handler(event, context):
         UpdateExpression="REMOVE pending_task_token, pending_step, pending_updated_at",
     )
 
-    return {
-        "statusCode": 200,
-        "body": json.dumps({"message": "Cook assigned and workflow resumed", "order_id": order_id}),
-    }
+    return response(200, {"message": "Cook assigned and workflow resumed", "order_id": order_id})
+    

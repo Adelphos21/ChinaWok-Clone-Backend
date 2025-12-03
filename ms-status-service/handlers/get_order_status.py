@@ -13,19 +13,19 @@ def lambda_handler(event, context):
         # -------- tenant obligatorio ----------
         tenant_id = (event.get("headers") or {}).get("x-tenant-id")
         if not tenant_id:
-            return(400,{"error": "x-tenant-id header es requerido"})
+            return response(400,{"error": "x-tenant-id header es requerido"})
             
 
         order_id = (event.get("pathParameters") or {}).get("order_id")
         if not order_id:
-            return(400, {"error": "order_id es requerido"})
+            return response(400, {"error": "order_id es requerido"})
             
 
         # -------- get pedido con PK compuesta ----------
         resp = table.get_item(Key={"tenant_id": tenant_id, "order_id": order_id})
 
         if "Item" not in resp:
-            return(404, {"error": "Pedido no encontrado"})
+            return response(404, {"error": "Pedido no encontrado"})
             
 
         pedido = resp["Item"]
@@ -43,12 +43,12 @@ def lambda_handler(event, context):
             "progress": calcular_progreso(status)
         }
 
-        return(200,{resultado})
+        return response(200,{resultado})
         
 
     except Exception as e:
         print(f"Error: {str(e)}")
-        return(500, {"error": "Error interno del servidor",
+        return response(500, {"error": "Error interno del servidor",
                 "details": str(e)})
         
 
