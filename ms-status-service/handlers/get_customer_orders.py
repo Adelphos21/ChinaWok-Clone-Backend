@@ -3,7 +3,7 @@ import os
 import boto3
 from boto3.dynamodb.conditions import Key, Attr
 from decimal import Decimal
-
+from utils import response
 dynamodb = boto3.resource("dynamodb")
 table = dynamodb.Table(os.environ["ORDERS_TABLE"])
 
@@ -14,25 +14,12 @@ def lambda_handler(event, context):
         # -------- tenant obligatorio ----------
         tenant_id = (event.get("headers") or {}).get("x-tenant-id")
         if not tenant_id:
-            return {
-                "statusCode": 400,
-                "headers": {
-                    "Access-Control-Allow-Origin": "*",
-                    "Content-Type": "application/json"
-                },
-                "body": json.dumps({"error": "x-tenant-id header es requerido"})
-            }
+            return response(400, {"error": "x-tenant-id header es requerido"})
 
         customer_id = (event.get("pathParameters") or {}).get("customer_id")
         if not customer_id:
-            return {
-                "statusCode": 400,
-                "headers": {
-                    "Access-Control-Allow-Origin": "*",
-                    "Content-Type": "application/json"
-                },
-                "body": json.dumps({"error": "customer_id is required"})
-            }
+            return response(400, {"error": "customer_id is required"})
+            
 
         # -------- Query por cliente usando CustomerIndex ----------
         resp = table.query(
@@ -59,30 +46,17 @@ def lambda_handler(event, context):
             for p in pedidos
         ]
 
-        return {
-            "statusCode": 200,
-            "headers": {
-                "Access-Control-Allow-Origin": "*",
-                "Content-Type": "application/json"
-            },
-            "body": json.dumps({
+        return response(200, {
                 "customer_id": customer_id,
                 "tenant_id": tenant_id,
                 "orders": pedidos_formateados,
                 "total_orders": len(pedidos_formateados)
-            }, default=str)
-        }
+            })
 
     except Exception as e:
         print(f"Error: {str(e)}")
-        return {
-            "statusCode": 500,
-            "headers": {
-                "Access-Control-Allow-Origin": "*",
-                "Content-Type": "application/json"
-            },
-            "body": json.dumps({"error": str(e)})
-        }
+        return response(500, {"error": str(e)})
+        
 
 
 def calcular_progreso(status):

@@ -2,7 +2,7 @@ import json
 import os
 from datetime import datetime, timezone
 import boto3
-
+from utils import response
 dynamodb = boto3.resource("dynamodb")
 table = dynamodb.Table(os.environ["ORDERS_TABLE"])
 
@@ -27,13 +27,8 @@ def handle_order_event(event, context):
         tenant_id = detail.get("tenant_id")
 
         if not event_type or not order_id or not tenant_id:
-            return {
-                "statusCode": 400,
-                "body": json.dumps({
-                    "error": "Missing required fields in event",
-                    "required": ["detail-type", "detail.order_id", "detail.tenant_id"]
-                })
-            }
+            return response(400, {"error": "Missing required fields in event",
+                    "required": ["detail-type", "detail.order_id", "detail.tenant_id"]})
 
         now = datetime.now(timezone.utc).isoformat()
 
@@ -72,19 +67,13 @@ def handle_order_event(event, context):
 
         print(f"Pedido {tenant_id}/{order_id} actualizado con evento {event_type}")
 
-        return {
-            "statusCode": 200,
-            "body": json.dumps({
-                "message": "Event processed successfully",
+        return response(200, {"message": "Event processed successfully",
                 "order_id": order_id,
                 "tenant_id": tenant_id,
-                "event_type": event_type
-            })
-        }
+                "event_type": event_type})
 
     except Exception as e:
         print(f"Error procesando evento: {str(e)}")
-        return {
-            "statusCode": 500,
-            "body": json.dumps({"error": str(e)})
-        }
+        
+        return response(500, {"error": str(e)})
+        

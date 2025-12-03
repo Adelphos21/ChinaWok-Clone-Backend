@@ -3,7 +3,7 @@ import os
 import json
 import boto3
 from datetime import datetime, timezone
-
+from utils import response
 stepfunctions = boto3.client("stepfunctions")
 dynamodb = boto3.resource("dynamodb")
 
@@ -53,9 +53,4 @@ def lambda_handler(event, context):
         ExpressionAttributeValues={":arn": execution_arn},
     )
 
-    return {
-        "statusCode": 200,
-        "body": json.dumps(
-            {"message": "Fulfillment iniciado", "execution_arn": execution_arn}
-        ),
-    }
+    return response(200, {"message": "Fulfillment iniciado", "execution_arn": execution_arn})

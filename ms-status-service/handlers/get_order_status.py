@@ -2,7 +2,7 @@ import json
 import os
 import boto3
 from decimal import Decimal
-
+from utils import response
 dynamodb = boto3.resource("dynamodb")
 table = dynamodb.Table(os.environ["ORDERS_TABLE"])
 
@@ -13,38 +13,20 @@ def lambda_handler(event, context):
         # -------- tenant obligatorio ----------
         tenant_id = (event.get("headers") or {}).get("x-tenant-id")
         if not tenant_id:
-            return {
-                "statusCode": 400,
-                "headers": {
-                    "Access-Control-Allow-Origin": "*",
-                    "Content-Type": "application/json"
-                },
-                "body": json.dumps({"error": "x-tenant-id header es requerido"})
-            }
+            return(400,{"error": "x-tenant-id header es requerido"})
+            
 
         order_id = (event.get("pathParameters") or {}).get("order_id")
         if not order_id:
-            return {
-                "statusCode": 400,
-                "headers": {
-                    "Access-Control-Allow-Origin": "*",
-                    "Content-Type": "application/json"
-                },
-                "body": json.dumps({"error": "order_id es requerido"})
-            }
+            return(400, {"error": "order_id es requerido"})
+            
 
         # -------- get pedido con PK compuesta ----------
         resp = table.get_item(Key={"tenant_id": tenant_id, "order_id": order_id})
 
         if "Item" not in resp:
-            return {
-                "statusCode": 404,
-                "headers": {
-                    "Access-Control-Allow-Origin": "*",
-                    "Content-Type": "application/json"
-                },
-                "body": json.dumps({"error": "Pedido no encontrado"})
-            }
+            return(404, {"error": "Pedido no encontrado"})
+            
 
         pedido = resp["Item"]
         status = pedido.get("status", "PENDIENTE")
@@ -61,28 +43,14 @@ def lambda_handler(event, context):
             "progress": calcular_progreso(status)
         }
 
-        return {
-            "statusCode": 200,
-            "headers": {
-                "Access-Control-Allow-Origin": "*",
-                "Content-Type": "application/json"
-            },
-            "body": json.dumps(resultado, default=str)
-        }
+        return(200,{resultado})
+        
 
     except Exception as e:
         print(f"Error: {str(e)}")
-        return {
-            "statusCode": 500,
-            "headers": {
-                "Access-Control-Allow-Origin": "*",
-                "Content-Type": "application/json"
-            },
-            "body": json.dumps({
-                "error": "Error interno del servidor",
-                "details": str(e)
-            })
-        }
+        return(500, {"error": "Error interno del servidor",
+                "details": str(e)})
+        
 
 
 def calcular_progreso(status):
