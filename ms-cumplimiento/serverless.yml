@@ -59,7 +59,16 @@ functions:
       - http:
           path: /orders/{order_id}/assign-cook
           method: post
-          cors: true
+          cors:
+            origin: '*'
+            headers:
+              - Content-Type
+              - X-Amz-Date
+              - Authorization
+              - X-Api-Key
+              - X-Amz-Security-Token
+              - x-tenant-id
+            allowCredentials: false
           
 
   MarkPacked:
@@ -68,7 +77,16 @@ functions:
       - http:
           path: /orders/{order_id}/mark-packed
           method: post
-          cors: true
+          cors:
+            origin: '*'
+            headers:
+              - Content-Type
+              - X-Amz-Date
+              - Authorization
+              - X-Api-Key
+              - X-Amz-Security-Token
+              - x-tenant-id
+            allowCredentials: false
           
 
   AssignDelivery:
@@ -77,7 +95,16 @@ functions:
       - http:
           path: /orders/{order_id}/assign-delivery
           method: post
-          cors: true
+          cors:
+            origin: '*'
+            headers:
+              - Content-Type
+              - X-Amz-Date
+              - Authorization
+              - X-Api-Key
+              - X-Amz-Security-Token
+              - x-tenant-id
+            allowCredentials: false
           
 
   MarkDelivered:
@@ -86,7 +113,16 @@ functions:
       - http:
           path: /orders/{order_id}/mark-delivered
           method: post
-          cors: true
+          cors:
+            origin: '*'
+            headers:
+              - Content-Type
+              - X-Amz-Date
+              - Authorization
+              - X-Api-Key
+              - X-Amz-Security-Token
+              - x-tenant-id
+            allowCredentials: false
           
 
 stepFunctions:

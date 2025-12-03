@@ -57,7 +57,16 @@ functions:
       - http:
           path: status/order/{order_id}
           method: get
-          cors: true
+          cors:
+            origin: '*'
+            headers:
+              - Content-Type
+              - X-Amz-Date
+              - Authorization
+              - X-Api-Key
+              - X-Amz-Security-Token
+              - x-tenant-id
+            allowCredentials: false
           integration: lambda-proxy
           
 
@@ -68,7 +77,16 @@ functions:
       - http:
           path: status/order/{order_id}/history
           method: get
-          cors: true
+          cors:
+            origin: '*'
+            headers:
+              - Content-Type
+              - X-Amz-Date
+              - Authorization
+              - X-Api-Key
+              - X-Amz-Security-Token
+              - x-tenant-id
+            allowCredentials: false
           integration: lambda-proxy
           
 
@@ -80,7 +98,16 @@ functions:
       - http:
           path: status/dashboard
           method: get
-          cors: true
+          cors:
+            origin: '*'
+            headers:
+              - Content-Type
+              - X-Amz-Date
+              - Authorization
+              - X-Api-Key
+              - X-Amz-Security-Token
+              - x-tenant-id
+            allowCredentials: false
           integration: lambda-proxy
           
 
@@ -91,6 +118,15 @@ functions:
       - http:
           path: status/customer/{customer_id}
           method: get
-          cors: true
+          cors:
+            origin: '*'
+            headers:
+              - Content-Type
+              - X-Amz-Date
+              - Authorization
+              - X-Api-Key
+              - X-Amz-Security-Token
+              - x-tenant-id
+            allowCredentials: false
           integration: lambda-proxy
           
