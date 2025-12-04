@@ -20,7 +20,7 @@ provider:
 
   environment:
     PRODUCTS_TABLE: ${self:service}-${self:provider.stage}-ProductsTable
-    IMAGES_BUCKET: ${self:service}-${self:provider.stage}-ProductsIamges
+    IMAGES_BUCKET: ${self:service}-${self:provider.stage}-product-images
 
 functions:
   # GET /products - Listar todos los productos
