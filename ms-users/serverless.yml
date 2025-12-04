@@ -22,6 +22,7 @@ provider:
     USERS_TABLE: ${self:service}-${self:provider.stage}-UsersTable
     JWT_SECRET: ${env:JWT_SECRET}
 
+    # Recursos importados desde Pedidos (si luego los necesitas)
     EVENT_BUS_NAME: ${cf:${self:custom.ordersStack}.EventBusName}
     ORDERS_TABLE_NAME: ${cf:${self:custom.ordersStack}.OrdersTableName}
     DELIVERY_BUCKET_NAME: ${cf:${self:custom.ordersStack}.DeliveryBucketName}
@@ -33,7 +34,17 @@ functions:
       - http:
           path: /users
           method: post
-          cors: true  
+          cors:
+            origin: '*'
+            headers:
+              - Content-Type
+              - X-Amz-Date
+              - Authorization
+              - X-Api-Key
+              - X-Amz-Security-Token
+              - x-tenant-id
+            allowCredentials: false
+          integration: lambda-proxy
 
   LoginUsuario:
     handler: LoginUsuario.lambda_handler
@@ -41,7 +52,17 @@ functions:
       - http:
           path: /auth/login
           method: post
-          cors: true
+          cors:
+            origin: '*'
+            headers:
+              - Content-Type
+              - X-Amz-Date
+              - Authorization
+              - X-Api-Key
+              - X-Amz-Security-Token
+              - x-tenant-id
+            allowCredentials: false
+          integration: lambda-proxy
 
 resources:
   Resources:

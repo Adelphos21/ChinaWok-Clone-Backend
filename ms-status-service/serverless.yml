@@ -68,7 +68,6 @@ functions:
               - x-tenant-id
             allowCredentials: false
           integration: lambda-proxy
-          
 
   getOrderHistory:
     handler: handlers/get_order_history.lambda_handler
@@ -88,7 +87,6 @@ functions:
               - x-tenant-id
             allowCredentials: false
           integration: lambda-proxy
-          
 
   getDashboardOrders:
     handler: handlers/get_dashboard_orders.lambda_handler
@@ -109,7 +107,6 @@ functions:
               - x-tenant-id
             allowCredentials: false
           integration: lambda-proxy
-          
 
   getCustomerOrders:
     handler: handlers/get_customer_orders.lambda_handler
@@ -129,4 +126,3 @@ functions:
               - x-tenant-id
             allowCredentials: false
           integration: lambda-proxy
-          

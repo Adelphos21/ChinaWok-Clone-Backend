@@ -42,7 +42,7 @@ functions:
               - X-Amz-Security-Token
               - x-tenant-id
             allowCredentials: false
-          
+          integration: lambda-proxy
 
   # GET /orders/customer/{customer_id}
   OrderByCustomer:
@@ -51,8 +51,17 @@ functions:
       - http:
           path: /orders/customer/{customer_id}
           method: get
-          cors: true
-          
+          cors:
+            origin: '*'
+            headers:
+              - Content-Type
+              - X-Amz-Date
+              - Authorization
+              - X-Api-Key
+              - X-Amz-Security-Token
+              - x-tenant-id
+            allowCredentials: false
+          integration: lambda-proxy
 
   # PATCH /orders/{order_id}/cancel
   CancelOrder:
@@ -61,8 +70,17 @@ functions:
       - http:
           path: /orders/{order_id}/cancel
           method: patch
-          cors: true
-          
+          cors:
+            origin: '*'
+            headers:
+              - Content-Type
+              - X-Amz-Date
+              - Authorization
+              - X-Api-Key
+              - X-Amz-Security-Token
+              - x-tenant-id
+            allowCredentials: false
+          integration: lambda-proxy
 
   # GET /orders?status=X
   OrdersByStatus:
@@ -71,8 +89,17 @@ functions:
       - http:
           path: /orders
           method: get
-          cors: true
-          
+          cors:
+            origin: '*'
+            headers:
+              - Content-Type
+              - X-Amz-Date
+              - Authorization
+              - X-Api-Key
+              - X-Amz-Security-Token
+              - x-tenant-id
+            allowCredentials: false
+          integration: lambda-proxy
 
   # (Opcional) UpdateOrderStatus eliminado porque Fulfillment maneja flujo
   # UpdateOrderStatus:
@@ -81,7 +108,17 @@ functions:
   #     - http:
   #         path: /orders/{order_id}/status
   #         method: patch
-  #         cors: true
+  #         cors:
+  #           origin: '*'
+  #           headers:
+  #             - Content-Type
+  #             - X-Amz-Date
+  #             - Authorization
+  #             - X-Api-Key
+  #             - X-Amz-Security-Token
+  #             - x-tenant-id
+  #           allowCredentials: false
+  #         integration: lambda-proxy
 
 resources:
   Resources:
