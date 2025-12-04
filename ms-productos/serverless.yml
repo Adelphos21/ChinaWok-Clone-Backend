@@ -41,13 +41,31 @@ functions:
               - x-tenant-id
             allowCredentials: false
 
-  # GET /products/{product_id} - Obtener un producto
-  GetProductById:
-    handler: GetProductById.lambda_handler
+
+    GetProducts:
+    handler: GetProducts.lambda_handler
     events:
       - http:
-          path: /products/{product_id}
+          path: /products
           method: get
+          cors:
+            origin: '*'
+            headers:
+              - Content-Type
+              - X-Amz-Date
+              - Authorization
+              - X-Api-Key
+              - X-Amz-Security-Token
+              - x-tenant-id
+            allowCredentials: false
+
+  
+  Upload_image:
+    handler: Upload_image.lambda_handler
+    events:
+      - http:
+          path: /upload-url
+          method: post
           cors:
             origin: '*'
             headers:
