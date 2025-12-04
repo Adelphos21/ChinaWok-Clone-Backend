@@ -27,16 +27,16 @@ provider:
     DELIVERY_BUCKET_NAME: ${cf:${self:custom.ordersStack}.DeliveryBucketName}
 
 functions:
-  CreateUser:
-    handler: CreateUser.lambda_handler
+  CrearUsuario:
+    handler: CrearUsuario.lambda_handler
     events:
       - http:
           path: /users
           method: post
           cors: true  
 
-  Login:
-    handler: Login.lambda_handler
+  LoginUsuario:
+    handler: LoginUsuario.lambda_handler
     events:
       - http:
           path: /auth/login
