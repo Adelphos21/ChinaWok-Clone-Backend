@@ -33,8 +33,7 @@ functions:
       - http:
           path: /users
           method: post
-          cors: true
-          authorizer: aws_iam
+          cors: true  
 
   Login:
     handler: Login.lambda_handler
