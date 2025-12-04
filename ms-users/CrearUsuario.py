@@ -10,7 +10,7 @@ from boto3.dynamodb.conditions import Attr
 def hash_password(password):
     return hashlib.sha256(password.encode()).hexdigest()
 
-ROLES_VALIDOS = ["Estudiante", "Personal administrativo", "Autoridad"]
+ROLES_VALIDOS = ["COCINERO", "DESPACHADOR", "REPARTIDOR", "USUARIO", "ADMIN"]
 
 def lambda_handler(event, context):
     dynamodb = boto3.resource('dynamodb')

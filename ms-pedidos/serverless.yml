@@ -32,7 +32,16 @@ functions:
       - http:
           path: /orders
           method: post
-          cors: true
+          cors:
+            origin: '*'
+            headers:
+              - Content-Type
+              - X-Amz-Date
+              - Authorization
+              - X-Api-Key
+              - X-Amz-Security-Token
+              - x-tenant-id
+            allowCredentials: false
           
 
   # GET /orders/customer/{customer_id}
