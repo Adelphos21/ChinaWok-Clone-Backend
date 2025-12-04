@@ -4,7 +4,7 @@ import uuid
 import re
 import json
 import os
-from lambdas.utils import response
+from utils import response
 from boto3.dynamodb.conditions import Attr
 
 def hash_password(password):
