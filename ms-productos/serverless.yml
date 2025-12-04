@@ -42,7 +42,7 @@ functions:
             allowCredentials: false
 
 
-    Upload_image:
+  Upload_image:
     handler: Upload_image.lambda_handler
     events:
       - http:
