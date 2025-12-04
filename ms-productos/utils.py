@@ -1,4 +1,3 @@
-# utils.py
 import json
 from decimal import Decimal
 
@@ -20,7 +19,7 @@ def response(status, body):
         "statusCode": status,
         "headers": {
             "Access-Control-Allow-Origin": "*",
-            "Access-Control-Allow-Headers": "Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,x-tenant-id",  # ⬅️ AGREGADO x-tenant-id
+            "Access-Control-Allow-Headers": "Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,x-tenant-id",
             "Access-Control-Allow-Methods": "OPTIONS,POST,GET,PUT,PATCH,DELETE",
             "Content-Type": "application/json"
         },
