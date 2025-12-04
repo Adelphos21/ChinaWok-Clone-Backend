@@ -136,7 +136,7 @@ resources:
     ProductImagesBucket:
       Type: AWS::S3::Bucket
       Properties:
-        BucketName: ${self:service}-${self:provider.stage}-ProductsIamges
+        BucketName: ${self:service}-${self:provider.stage}-product-images
         CorsConfiguration:
           CorsRules:
             - AllowedOrigins:
