@@ -136,7 +136,7 @@ resources:
     ProductImagesBucket:
       Type: AWS::S3::Bucket
       Properties:
-        BucketName: chinawok-product-images-${self:provider.stage}
+        BucketName: ${self:service}-${self:provider.stage}-ProductsIamges
         CorsConfiguration:
           CorsRules:
             - AllowedOrigins:
@@ -149,6 +149,8 @@ resources:
                 - POST
                 - HEAD
               MaxAge: 3000
+              ExposedHeaders:
+                - ETag
         PublicAccessBlockConfiguration:
           BlockPublicAcls: false
           BlockPublicPolicy: false
