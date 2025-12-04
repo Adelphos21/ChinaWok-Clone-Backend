@@ -42,12 +42,12 @@ functions:
             allowCredentials: false
 
 
-    GetProducts:
-    handler: GetProducts.lambda_handler
+    Upload_image:
+    handler: Upload_image.lambda_handler
     events:
       - http:
-          path: /products
-          method: get
+          path: /upload-url
+          method: post
           cors:
             origin: '*'
             headers:
@@ -59,13 +59,13 @@ functions:
               - x-tenant-id
             allowCredentials: false
 
-  
-  Upload_image:
-    handler: Upload_image.lambda_handler
+  # GET /products/{product_id} - Obtener un producto
+  GetProductById:
+    handler: GetProductById.lambda_handler
     events:
       - http:
-          path: /upload-url
-          method: post
+          path: /products/{product_id}
+          method: get
           cors:
             origin: '*'
             headers:
