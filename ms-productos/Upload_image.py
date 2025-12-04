@@ -46,19 +46,9 @@ def lambda_handler(event, context):
         # URL pública del archivo (después de subirlo)
         public_url = f"https://{BUCKET_NAME}.s3.amazonaws.com/{unique_filename}"
         
-        return {
-            'statusCode': 200,
-            'headers': {
-                'Access-Control-Allow-Origin': '*',
-                'Access-Control-Allow-Headers': '*',
-                'Content-Type': 'application/json'
-            },
-            'body': json.dumps({
-                'uploadUrl': presigned_url,
+        return response(200, {'uploadUrl': presigned_url,
                 'publicUrl': public_url,
-                'key': unique_filename
-            })
-        }
+                'key': unique_filename})
         
     except Exception as e:
         print(f"Error: {str(e)}")
